@@ -1,9 +1,8 @@
-﻿// 医疗管理系统.cpp : 定义应用程序的入口点。
+﻿// main.c
 //
 
 #include "framework.h"
 #include "his.h"
-
 
 // 全局变量:
 HINSTANCE hInst;                                // 当前实例

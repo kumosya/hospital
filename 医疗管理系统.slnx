@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="医疗管理系统.vcxproj" />
+  <Project Path="医疗管理系统.vcxproj" Id="a4118375-9aae-4ada-8f70-d6962cdbbce2" />
 </Solution>

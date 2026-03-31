@@ -1,10 +1,14 @@
 
 #include "framework.h"
 #include "his.h"
+// button IDs for role selection
+#define ID_BTN_PATIENT 201
+#define ID_BTN_DOCTOR  202
+#define ID_BTN_ADMIN   203
 //
-//  å‡½æ•°: MyRegisterClass()
+//  º¯Êı: MyRegisterClass()
 //
-//  ç›®æ ‡: æ³¨å†Œçª—å£ç±»ã€‚
+//  Ä¿±ê: ×¢²á´°¿ÚÀà¡£
 //
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
@@ -28,18 +32,18 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 }
 
 //
-//   å‡½æ•°: InitInstance(HINSTANCE, int)
+//   º¯Êı: InitInstance(HINSTANCE, int)
 //
-//   ç›®æ ‡: ä¿å­˜å®ä¾‹å¥æŸ„å¹¶åˆ›å»ºä¸»çª—å£
+//   Ä¿±ê: ±£´æÊµÀı¾ä±ú²¢´´½¨Ö÷´°¿Ú
 //
-//   æ³¨é‡Š:
+//   ×¢ÊÍ:
 //
-//        åœ¨æ­¤å‡½æ•°ä¸­ï¼Œæˆ‘ä»¬åœ¨å…¨å±€å˜é‡ä¸­ä¿å­˜å®ä¾‹å¥æŸ„å¹¶
-//        åˆ›å»ºå’Œæ˜¾ç¤ºä¸»ç¨‹åºçª—å£ã€‚
+//        ÔÚ´Ëº¯ÊıÖĞ£¬ÎÒÃÇÔÚÈ«¾Ö±äÁ¿ÖĞ±£´æÊµÀı¾ä±ú²¢
+//        ´´½¨ºÍÏÔÊ¾Ö÷³ÌĞò´°¿Ú¡£
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-    hInst = hInstance; // å°†å®ä¾‹å¥æŸ„å­˜å‚¨åœ¨å…¨å±€å˜é‡ä¸­
+    hInst = hInstance; // ½«ÊµÀı¾ä±ú´æ´¢ÔÚÈ«¾Ö±äÁ¿ÖĞ
 
     HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
@@ -56,25 +60,89 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 }
 
 //
-//  å‡½æ•°: WndProc(HWND, UINT, WPARAM, LPARAM)
+//  º¯Êı: WndProc(HWND, UINT, WPARAM, LPARAM)
 //
-//  ç›®æ ‡: å¤„ç†ä¸»çª—å£çš„æ¶ˆæ¯ã€‚
+//  Ä¿±ê: ´¦ÀíÖ÷´°¿ÚµÄÏûÏ¢¡£
 //
-//  WM_COMMAND  - å¤„ç†åº”ç”¨ç¨‹åºèœå•
-//  WM_PAINT    - ç»˜åˆ¶ä¸»çª—å£
-//  WM_DESTROY  - å‘é€é€€å‡ºæ¶ˆæ¯å¹¶è¿”å›
+//  WM_COMMAND  - ´¦ÀíÓ¦ÓÃ³ÌĞò²Ëµ¥
+//  WM_PAINT    - »æÖÆÖ÷´°¿Ú
+//  WM_DESTROY  - ·¢ËÍÍË³öÏûÏ¢²¢·µ»Ø
 //
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    static HWND hLeft = NULL;
+    static HWND hRight = NULL;
+    const int LEFT_FIXED = 220; // preferred left pane width in pixels
     switch (message)
     {
+    case WM_CREATE:
+    {
+        // create two child static controls as left/right panes
+        hLeft = CreateWindowW(L"STATIC", L"left",
+            WS_CHILD | WS_VISIBLE | WS_BORDER | SS_LEFTNOWORDWRAP,
+            0, 0, LEFT_FIXED, 100,
+            hWnd, (HMENU)101, hInst, NULL);
+
+        hRight = CreateWindowW(L"STATIC", L"right",
+            WS_CHILD | WS_VISIBLE | WS_BORDER | SS_LEFTNOWORDWRAP,
+            LEFT_FIXED, 0, 100, 100,
+            hWnd, (HMENU)102, hInst, NULL);
+
+        // create role selection buttons in the left pane area
+        HWND hBtn1 = CreateWindowW(L"BUTTON", L"»¼Õß",
+            WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+            8, 8, 80, 28,
+            hLeft, (HMENU)ID_BTN_PATIENT, hInst, NULL);
+
+        HWND hBtn2 = CreateWindowW(L"BUTTON", L"Ò½Éú",
+            WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+            8, 44, 80, 28,
+            hLeft, (HMENU)ID_BTN_DOCTOR, hInst, NULL);
+
+        HWND hBtn3 = CreateWindowW(L"BUTTON", L"¹ÜÀí",
+            WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+            8, 80, 80, 28,
+            hLeft, (HMENU)ID_BTN_ADMIN, hInst, NULL);
+
+        // set default GUI font for readability
+        SendMessageW(hLeft, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+        SendMessageW(hRight, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+
+        return 0;
+    }
+
+    case WM_SIZE:
+    {
+        int cx = LOWORD(lParam);
+        int cy = HIWORD(lParam);
+
+        if (hLeft && hRight) {
+            int leftW = LEFT_FIXED;
+            // ensure left pane isn't wider than half the window or too large for small windows
+            if (leftW > cx / 2) leftW = cx / 4;
+
+            // position panes
+            MoveWindow(hLeft, 0, 0, leftW, cy, TRUE);
+            MoveWindow(hRight, leftW, 0, cx - leftW, cy, TRUE);
+        }
+        return 0;
+    }
     case WM_COMMAND:
     {
         int wmId = LOWORD(wParam);
-        // åˆ†æèœå•é€‰æ‹©:
+        // ·ÖÎö²Ëµ¥Ñ¡Ôñ:
         switch (wmId)
         {
+        case ID_BTN_PATIENT:
+            SetWindowTextW(hRight, L"ÒÑÑ¡Ôñ£º»¼Õß\nÔÚ´ËÏÔÊ¾»¼Õß½çÃæ...");
+            return 0;
+        case ID_BTN_DOCTOR:
+            SetWindowTextW(hRight, L"ÒÑÑ¡Ôñ£ºÒ½Éú\nÔÚ´ËÏÔÊ¾Ò½Éú½çÃæ...");
+            return 0;
+        case ID_BTN_ADMIN:
+            SetWindowTextW(hRight, L"ÒÑÑ¡Ôñ£º¹ÜÀí\nÔÚ´ËÏÔÊ¾¹ÜÀí½çÃæ...");
+            return 0;
         case IDM_ABOUT:
             DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
             break;
@@ -90,7 +158,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hWnd, &ps);
-        // TODO: åœ¨æ­¤å¤„æ·»åŠ ä½¿ç”¨ hdc çš„ä»»ä½•ç»˜å›¾ä»£ç ...
+        // TODO: ÔÚ´Ë´¦Ìí¼ÓÊ¹ÓÃ hdc µÄÈÎºÎ»æÍ¼´úÂë...
         EndPaint(hWnd, &ps);
     }
     break;
@@ -103,7 +171,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-// â€œå…³äºâ€æ¡†çš„æ¶ˆæ¯å¤„ç†ç¨‹åºã€‚
+// ¡°¹ØÓÚ¡±¿òµÄÏûÏ¢´¦Àí³ÌĞò¡£
 INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
     UNREFERENCED_PARAMETER(lParam);

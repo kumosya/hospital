@@ -55,6 +55,9 @@ nunit-*.xml
 [Rr]eleasePS/
 dlldata.c
 
+x64/
+医疗管理系统/
+
 # Benchmark Results
 BenchmarkDotNet.Artifacts/
 

@@ -3,6 +3,7 @@
 
 #include "framework.h"
 #include "his.h"
+#include "lib.h"
 
 // 全局变量:
 HINSTANCE hInst;                                // 当前实例
@@ -19,6 +20,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // TODO: 在此处放置代码。
+    ListTest();
 
     // 初始化全局字符串
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);

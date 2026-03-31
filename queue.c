@@ -19,7 +19,7 @@ void EnQueue(Queue* q, DataType val) {
 
 DataType DeQueue(Queue* q) {
     if (IsEmpty(q)) {
-        //printf("闃熺┖锛屾棤娉曞嚭闃燂紒\n");
+        //printf("队空，无法出队！\n");
         return NULL;
     }
     Node* temp = q->sentinel->next;

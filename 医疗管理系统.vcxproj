@@ -132,6 +132,8 @@
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="lib.h" />
+    <ClInclude Include="list.h" />
+    <ClInclude Include="patient.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="his.h" />
@@ -140,7 +142,6 @@
     <ClCompile Include="file.c" />
     <ClCompile Include="list.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="queue.c" />
     <ClCompile Include="win.c" />
   </ItemGroup>
   <ItemGroup>

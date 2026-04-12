@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _LIST_H
+#define _LIST_H
 
 #define ListMkInc(T)                                                         \
 T* ListInit##T();\
@@ -186,3 +187,5 @@ void ListSwapByPos##T(T* head, int i, int j) {                            \
                                                                             \
     ListSwap##T(node_i, node_j);                                          \
 }                       
+
+#endif /* _LIST_H */

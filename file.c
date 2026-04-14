@@ -1,5 +1,6 @@
-#include "framework.h"
 #include "lib.h"
+
+#include <stdio.h>
 
 FILE* FileOpen(const char *filename, const char *mode) {
 	FILE* fp;
